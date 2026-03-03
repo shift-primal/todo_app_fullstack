@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 public static class TodoQueryExtensions
 {
     public static IQueryable<TodoItem> Apply(this IQueryable<TodoItem> query, TodoQuery q)
@@ -7,11 +9,12 @@ public static class TodoQueryExtensions
         if (q.To is not null)
             query = query.Where(t => t.CreatedAt <= q.To);
         if (q.IsCompleted is not null)
-            query = query.Where(t => t.IsCompleted);
-        if (q.IsUncompleted is not null)
-            query = query.Where(t => !t.IsCompleted);
-        if (q.Title is not null)
-            query = query.Where(t => t.Title.ToLower().Contains(q.Title.ToLower()));
+            query = query.Where(t => t.IsCompleted == q.IsCompleted);
+        if (q.Search is not null)
+            query = query.Where(t =>
+                t.Title.ToLower().Contains(q.Search.ToLower())
+                || (t.Description != null && t.Description.ToLower().Contains(q.Search.ToLower()))
+            );
 
         return query;
     }
@@ -33,7 +36,7 @@ public static class TodoQueryExtensions
             (SortBy.Status, SortDir.Desc) => query.OrderByDescending(t => t.IsCompleted),
             (SortBy.Urgency, SortDir.Asc) => query.OrderBy(t => t.Urgency),
             (SortBy.Urgency, SortDir.Desc) => query.OrderByDescending(t => t.Urgency),
-            _ => query.OrderByDescending(t => t.CreatedAt),
+            _ => query.OrderBy(t => t.Id),
         };
     }
 }

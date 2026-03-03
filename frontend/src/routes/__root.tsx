@@ -1,51 +1,59 @@
 import {
-  createRootRouteWithContext,
-  Outlet,
-  ScrollRestoration,
+	HeadContent,
+	Scripts,
+	createRootRouteWithContext
 } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Meta, Scripts } from "@tanstack/react-start";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import type { ReactNode } from "react";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 
-import appCss from "~/styles/app.css?url";
+import "../styles.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
-  {
-    head: () => ({
-      meta: [
-        { charSet: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
-      ],
-      links: [{ rel: "stylesheet", href: appCss }],
-    }),
-    component: RootComponent,
-  }
+	{
+		head: () => ({
+			meta: [
+				{
+					charSet: "utf-8"
+				},
+				{
+					name: "viewport",
+					content: "width=device-width, initial-scale=1"
+				},
+				{
+					title: "2odo"
+				}
+			]
+		}),
+
+		shellComponent: RootDocument
+	}
 );
 
-function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-  return (
-    <QueryClientProvider client={queryClient}>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
-    </QueryClientProvider>
-  );
-}
-
-function RootDocument({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <Meta />
-      </head>
-      <body>
-        {children}
-        <ScrollRestoration />
-        <TanStackRouterDevtools position="bottom-right" />
-        <Scripts />
-      </body>
-    </html>
-  );
+function RootDocument({ children }: { children: React.ReactNode }) {
+	const { queryClient } = Route.useRouteContext();
+	return (
+		<html lang="en">
+			<head>
+				<HeadContent />
+			</head>
+			<body className="dark">
+				<QueryClientProvider client={queryClient}>
+					{children}
+				</QueryClientProvider>
+				<TanStackDevtools
+					config={{
+						position: "bottom-right"
+					}}
+					plugins={[
+						{
+							name: "Tanstack Router",
+							render: <TanStackRouterDevtoolsPanel />
+						}
+					]}
+				/>
+				<Scripts />
+			</body>
+		</html>
+	);
 }

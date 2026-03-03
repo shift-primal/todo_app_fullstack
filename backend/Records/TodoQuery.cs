@@ -2,10 +2,9 @@ public record TodoQuery(
     DateTime? From,
     DateTime? To,
     bool? IsCompleted,
-    bool? IsUncompleted,
-    string? Title,
+    string? Search,
     SortBy SortBy = SortBy.Date,
     SortDir SortDir = SortDir.Desc,
     int PageNumber = 1,
-    int PageSize = 25
+    int PageSize = 10
 );

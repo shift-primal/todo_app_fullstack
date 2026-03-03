@@ -1,3 +1,4 @@
 /backend/.editorconfig
 /backend/Migrations
 /plan.md
+/frontend/pnpm-lock.yaml
