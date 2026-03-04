@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import { TodoPageParams, TodoQueryParams } from "@/types/types";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export const useGetTodoAll = ({
 	query,
@@ -12,5 +12,6 @@ export const useGetTodoAll = ({
 	return useQuery({
 		queryKey: ["todos", query, page],
 		queryFn: () => api.todos.getAll({ query, page }),
+		placeholderData: keepPreviousData,
 	});
 };

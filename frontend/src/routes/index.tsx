@@ -1,9 +1,10 @@
 import { TodoPagination } from "@/components/TodoPagination";
-import { TodoList } from "@/components/TodoList";
 import { useGetTodoAll } from "@/hooks/useGetTodoAll";
 import { TodoPageParams, TodoQueryParams } from "@/types/types";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { QueryControls } from "@/components/QueryControls";
+import { TodoCard } from "@/components/TodoCard";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -26,16 +27,23 @@ function App() {
 		return (
 			<>
 				<main>
-					<div className="grid rows-2 gap-y-16">
-						<div
-							id="main-section"
-							className="row-span-1 items-self-center"
-						>
-							<TodoList data={data.items} />
+					<div id="main-section" className="p-4">
+						<div className="w-3/4 h-fit flex flex-col gap-y-5 mx-auto">
+							<QueryControls setQuery={setQuery} />
+							{data.items.map((todo) => (
+								<TodoCard key={todo.id} todo={todo} />
+							))}
 						</div>
-						<div id="pagination" className="row-span-1">
-							<TodoPagination page={page} setPage={setPage} totalPages={data.totalPages as number} />
-						</div>
+					</div>
+					<div
+						id="pagination"
+						className="absolute bottom-6 left-1/2 -translate-x-1/2"
+					>
+						<TodoPagination
+							page={page}
+							setPage={setPage}
+							totalPages={data.totalPages as number}
+						/>
 					</div>
 				</main>
 			</>

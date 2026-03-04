@@ -6,7 +6,7 @@ export type PagedResult = components["schemas"]["PagedResultOfTodoItem"];
 export type CreateTodoRequest = components["schemas"]["CreateTodoRequest"];
 export type UpdateTodoRequest = components["schemas"]["UpdateTodoRequest"];
 
-export type TodoQuery = paths["/todos"]["get"]["parameters"]["query"];
+type TodoQuery = paths["/todos"]["get"]["parameters"]["query"];
 
 export type TodoPageParams = Pick<
 	NonNullable<TodoQuery>,
