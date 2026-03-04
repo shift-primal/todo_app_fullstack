@@ -35,7 +35,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["TodoItem"][];
+                        "application/json": components["schemas"]["PagedResultOfTodoItem"];
                     };
                 };
             };
@@ -156,6 +156,17 @@ export interface components {
             urgency?: components["schemas"]["UrgencyLevel"];
             /** Format: date-time */
             completeBy?: null | string;
+        };
+        PagedResultOfTodoItem: {
+            items: components["schemas"]["TodoItem"][];
+            /** Format: int32 */
+            totalCount?: number | string;
+            /** Format: int32 */
+            totalPages?: number | string;
+            /** Format: int32 */
+            pageNumber?: number | string;
+            /** Format: int32 */
+            pageSize?: number | string;
         };
         /** @enum {unknown} */
         SortBy: "Date" | "Name" | "Status" | "Urgency";

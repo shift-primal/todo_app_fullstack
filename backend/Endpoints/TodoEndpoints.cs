@@ -7,7 +7,24 @@ public static class TodoEndpoints
         app.MapGet(
             "/todos",
             async (TodoDb db, [AsParameters] TodoQuery q) =>
-                await db.TodoItems.Apply(q).Sort(q).Paginate(q).ToListAsync()
+            {
+                var query = db.TodoItems.Apply(q).Sort(q);
+
+                var totalCount = await query.CountAsync();
+
+                var items = await query.Paginate(q).ToListAsync();
+
+                return TypedResults.Ok(
+                    new PagedResult<TodoItem>
+                    {
+                        Items = items,
+                        TotalCount = totalCount,
+                        TotalPages = (int)Math.Ceiling((double)totalCount / q.PageSize),
+                        PageNumber = q.PageNumber,
+                        PageSize = q.PageSize,
+                    }
+                );
+            }
         );
 
         app.MapGet(

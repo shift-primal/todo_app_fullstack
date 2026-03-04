@@ -1,7 +1,9 @@
 import {
 	CreateTodoRequest,
+	PagedResult,
 	TodoItemType,
-	TodoQuery,
+	TodoPageParams,
+	TodoQueryParams,
 	UpdateTodoRequest,
 } from "@/types/types";
 import axios from "axios";
@@ -13,9 +15,15 @@ const client = axios.create({
 
 export const api = {
 	todos: {
-		getAll: (params?: TodoQuery) =>
+		getAll: ({
+			query,
+			page,
+		}: {
+			query: TodoQueryParams;
+			page: TodoPageParams;
+		}) =>
 			client
-				.get<TodoItemType[]>("/todos", { params })
+				.get<PagedResult>("/todos", { params: { ...query, ...page } })
 				.then((r) => r.data),
 		getSingle: (id: number) =>
 			client.get<TodoItemType>(`/todos/${id}`).then((r) => r.data),

@@ -1,10 +1,16 @@
 import { api } from "@/lib/api";
-import { TodoQuery } from "@/types/types";
+import { TodoPageParams, TodoQueryParams } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetTodoAll = (params?: TodoQuery) => {
+export const useGetTodoAll = ({
+	query,
+	page,
+}: {
+	query: TodoQueryParams;
+	page: TodoPageParams;
+}) => {
 	return useQuery({
-		queryKey: ["todos", params],
-		queryFn: () => api.todos.getAll(params)
+		queryKey: ["todos", query, page],
+		queryFn: () => api.todos.getAll({ query, page }),
 	});
 };
