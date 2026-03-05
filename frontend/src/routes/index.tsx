@@ -29,7 +29,7 @@ function App() {
 				<main>
 					<div id="main-section" className="p-4">
 						<div className="w-3/4 h-fit flex flex-col gap-y-5 mx-auto">
-							<QueryControls setQuery={setQuery} />
+							<QueryControls query={query} setQuery={setQuery} />
 							{data.items.map((todo) => (
 								<TodoCard key={todo.id} todo={todo} />
 							))}

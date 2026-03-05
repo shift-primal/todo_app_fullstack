@@ -45,7 +45,7 @@ export function DatePickerWithRange({
 						<Button
 							variant="outline"
 							id="date-picker-range"
-							className="justify-start px-2.5 font-normal relative"
+							className="justify-start px-2.5 font-normal relative cursor-pointer"
 						>
 							<CalendarIcon />
 							{date?.from ? (
@@ -73,7 +73,11 @@ export function DatePickerWithRange({
 					</PopoverContent>
 				</Popover>
 			</Field>
-			<Button variant="destructive" onClick={handleReset}>
+			<Button
+				variant="destructive"
+				className="cursor-pointer"
+				onClick={handleReset}
+			>
 				{<RotateCcw />}
 			</Button>
 		</>
